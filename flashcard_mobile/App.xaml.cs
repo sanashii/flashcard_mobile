@@ -1,5 +1,6 @@
 ﻿using flashcard_mobile.Views;
 using flashcard_mobile.Services;
+using CommunityToolkit.Maui;
 
 namespace flashcard_mobile
 {

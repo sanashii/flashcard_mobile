@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               x:Class="flashcard_mobile.Views.AccountPopup"
+               BackgroundColor="Transparent"
+               HasShadow="False">
+
+    <AbsoluteLayout BackgroundColor="Transparent">
+        <StackLayout BackgroundColor="LightGray"
+                     Padding="10"
+                     AbsoluteLayout.LayoutBounds="1, 0, 1, 1"
+                     AbsoluteLayout.LayoutFlags="PositionProportional">
+            <Button Text="Edit Account"
+                    TextColor="Black"
+                    BackgroundColor="LightGray"
+                    CornerRadius="0"
+                     />
+            <!-- add ^^ Clicked="OnEditAccountClicked" -->
+            <Button Text="Logout"
+                    TextColor="Red"
+                    BackgroundColor="LightGray"
+                    CornerRadius="0"
+                    Clicked="OnLogoutClicked" />
+        </StackLayout>
+    </AbsoluteLayout>
+</toolkit:Popup>

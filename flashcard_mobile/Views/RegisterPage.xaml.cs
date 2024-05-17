@@ -11,7 +11,7 @@ namespace flashcard_mobile.Views
             BindingContext = new RegisterPageViewModel();
         }
 
-        private void OnNameCompleted(object sender, EventArgs e)
+        /*private void OnNameCompleted(object sender, EventArgs e)
         {
             emailEntry.Focus();
         }
@@ -24,7 +24,7 @@ namespace flashcard_mobile.Views
         private void OnPasswordCompleted(object sender, EventArgs e)
         {
             passwordEntry.Unfocus(); // Optionally trigger registration directly
-        }
+        } */
 
 
         protected override void OnAppearing()

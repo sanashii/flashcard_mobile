@@ -5,13 +5,24 @@
              xmlns:vm="clr-namespace:flashcard_mobile.ViewModels"
              xmlns:local="clr-namespace:flashcard_mobile.Converters"
              Shell.NavBarIsVisible="False"
-             Title="Register Page">
+             Title="Register Page" >
 
     <ContentPage.BindingContext>
         <vm:RegisterPageViewModel />
     </ContentPage.BindingContext>
 
     <ContentPage.Resources>
+        <Style TargetType="Entry" x:Key="EntryStyle">
+            <Setter Property="TextColor" Value="White"/>
+            <Setter Property="PlaceholderColor" Value="#CAC0B3"/>
+            <Setter Property="Margin" Value="20"/>
+        </Style>
+        <Style TargetType="Button" x:Key="ButtonStyle">
+            <Setter Property="BackgroundColor" Value="#FF595A"/>
+            <Setter Property="TextColor" Value="White"/>
+            <Setter Property="Margin" Value="20"/>
+            <Setter Property="CornerRadius" Value="10"/>
+        </Style>
         <ResourceDictionary>
             <local:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
             <Style TargetType="Entry">
@@ -20,51 +31,30 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Entry x:Name="nameEntry"
-       Placeholder="Name"
-       ReturnType="Next"
-       Completed="OnNameCompleted" />
+    <Grid>
+        <!-- Gradient Background -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0.9,0" EndPoint="1,1">
+                <GradientStop Color="#001233" Offset="0.2" />
+                <GradientStop Color="#CAC0B3" Offset="1.0" />
+            </LinearGradientBrush>
+        </Grid.Background>
 
-    <Entry x:Name="emailEntry"
-       Placeholder="Email"
-       ReturnType="Next"
-       Completed="OnEmailCompleted" />
+        <ScrollView>
+            <StackLayout Spacing="15" Padding="30">
+                <Image Source="flashcard.png" HorizontalOptions="Center" Margin="0,25,0,15" HeightRequest="150"/>
+                <Entry Style="{StaticResource EntryStyle}" Placeholder="Name" Text="{Binding Name, Mode=TwoWay}" Keyboard="Text" ReturnType="Next" />
+                <Entry Style="{StaticResource EntryStyle}" Placeholder="Email" Text="{Binding Email, Mode=TwoWay}" Keyboard="Email" ReturnType="Next" />
+                <Entry Style="{StaticResource EntryStyle}" Placeholder="Password" Text="{Binding Password, Mode=TwoWay}" IsPassword="True" ReturnType="Done" />
 
-    <Entry x:Name="passwordEntry"
-       Placeholder="Password"
-       ReturnType="Done"
-       Completed="OnPasswordCompleted" />
-
-
-    <ScrollView>
-        <StackLayout Spacing="15" Padding="30">
-
-            <!-- Data Entry -->
-            <Entry Placeholder="Name"
-                   Text="{Binding Name, Mode=TwoWay}"
-                   IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"/>
-            <Entry Placeholder="Email"
-                   Text="{Binding Email, Mode=TwoWay}"
-                   Keyboard="Email"
-                   IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"/>
-            <Entry Placeholder="Password"
-                   Text="{Binding Password, Mode=TwoWay}"
-                   IsPassword="True"
-                   IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"/>
-
-            <!-- Registration Button -->
-            <Button Text="Register"
-                    Command="{Binding RegisterCommand}"
-                    IsEnabled="True"/>
-
-            <!-- Navigate to Login Page -->
-            <Button Text="Already have an account? Login"
-                    Command="{Binding NavigateToLoginCommand}"
-                    IsEnabled="True"/>      
-
-            <!-- Busy Indicator -->
-            <ActivityIndicator IsVisible="{Binding IsBusy}"
-                               IsRunning="{Binding IsBusy}"/>
-        </StackLayout>
-    </ScrollView>
+                <Button Style="{StaticResource ButtonStyle}" Text="Register" Command="{Binding RegisterCommand}"/>
+                <Label Text="Already have an account?" HorizontalOptions="Center" TextColor="black"/>
+                <Label Text="Login" HorizontalOptions="Center" TextColor="#FF595A" FontAttributes="Bold">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateToLoginCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
 </ContentPage>

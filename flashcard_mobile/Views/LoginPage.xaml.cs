@@ -11,10 +11,10 @@ public partial class LoginPage : ContentPage
         BindingContext = new LoginPageViewModel();
     }
 
-    private void OnEmailCompleted(object sender, EventArgs e)
+     /* private void OnEmailCompleted(object sender, EventArgs e)
     {
         passwordEntry.Focus();
-    }
+    } */
 
     private void OnPasswordCompleted(object sender, EventArgs e)
     {

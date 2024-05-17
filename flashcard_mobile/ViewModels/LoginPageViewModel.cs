@@ -75,7 +75,7 @@ namespace flashcard_mobile.ViewModels
                 // Handle successful login
                 await Shell.Current.GoToAsync("//home");
             }
-            else if(email == "admin" && password == "admin")
+            else if (email == "admin" && password == "admin")
             {
                 // Handle successful login
                 await Shell.Current.GoToAsync("//home");

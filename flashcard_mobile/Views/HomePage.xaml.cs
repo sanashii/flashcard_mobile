@@ -1,10 +1,20 @@
-namespace flashcard_mobile.Views;
+using Microsoft.Maui.Controls;
 using flashcard_mobile.ViewModels;
 
-public partial class HomePage : ContentPage
+namespace flashcard_mobile.Views
 {
-	public HomePage()
-	{
-		InitializeComponent();
-	}
+    public partial class HomePage : ContentPage
+    {
+        public HomePage()
+        {
+            InitializeComponent();
+            BindingContext = new HomePageViewModel();
+        }
+
+        private async void OnMyAccountClicked(object sender, EventArgs e)
+        {
+            var popupPage = new AccountPopupPage();
+            await Navigation.PushModalAsync(popupPage);
+        }
+    }
 }

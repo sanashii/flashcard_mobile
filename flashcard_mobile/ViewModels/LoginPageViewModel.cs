@@ -31,16 +31,31 @@ namespace flashcard_mobile.ViewModels
         public LoginPageViewModel()
         {
             NavigateToRegisterCommand = new Command(async () => await Shell.Current.GoToAsync("//register"));
-            LoginCommand = new Command(async () =>
-            {
-                if (!string.IsNullOrWhiteSpace(Email) && !string.IsNullOrWhiteSpace(Password))
+            LoginCommand = new Command(
+                execute: async () =>
                 {
-                    await Login(Email, Password);
+                    if (ValidateLogin())
+                    {
+                        await Login(Email, Password);
+                    }
+                },
+                canExecute: ValidateLogin
+            );
+
+            // Subscribe to PropertyChanged event to update the CanExecute state of LoginCommand.
+            PropertyChanged += (_, args) =>
+            {
+                if (args.PropertyName == nameof(Email) || args.PropertyName == nameof(Password))
+                {
+                    ((Command)LoginCommand).ChangeCanExecute();
                 }
-            },
-            () => !string.IsNullOrWhiteSpace(Email) && !string.IsNullOrWhiteSpace(Password));  // Ensure email and password are not empty
+            };
         }
 
+        private bool ValidateLogin()
+        {
+            return !string.IsNullOrWhiteSpace(Email) && !string.IsNullOrWhiteSpace(Password);
+        }
 
         private bool SetProperty<T>(ref T backingStore, T value, [CallerMemberName] string propertyName = "")
         {
@@ -58,13 +73,12 @@ namespace flashcard_mobile.ViewModels
             if (user != null && user.Password == password)
             {
                 // Handle successful login
-                // Navigate to the home page
                 await Shell.Current.GoToAsync("//home");
             }
             else
             {
-                // Handle failed login
-                // Display an error message
+                // Handle failed login or user not existing
+                await Shell.Current.DisplayAlert("Login Failed", "Invalid username or password, or account does not exist.", "OK");
             }
         }
     }

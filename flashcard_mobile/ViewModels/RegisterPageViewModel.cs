@@ -49,11 +49,14 @@ namespace flashcard_mobile.ViewModels
                 canExecute: () => ValidateRegistration()
             );
 
-            // These properties change should notify the Command to re-evaluate its CanExecute state.
-            this.PropertyChanged +=
-                (_, __) => ((Command)RegisterCommand).ChangeCanExecute();
+            PropertyChanged += (_, args) =>
+            {
+                if (args.PropertyName == nameof(Name) || args.PropertyName == nameof(Email) || args.PropertyName == nameof(Password))
+                {
+                    ((Command)RegisterCommand).ChangeCanExecute();
+                }
+            };
         }
-
 
         private bool SetProperty<T>(ref T backingStore, T value, [CallerMemberName] string propertyName = "")
         {
@@ -65,10 +68,27 @@ namespace flashcard_mobile.ViewModels
             return true;
         }
 
+        private bool IsValidEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
         private bool ValidateRegistration()
         {
             return !string.IsNullOrWhiteSpace(Name) &&
-                   !string.IsNullOrWhiteSpace(Email) &&
+                   IsValidEmail(Email) &&
                    !string.IsNullOrWhiteSpace(Password);
         }
 
@@ -76,7 +96,14 @@ namespace flashcard_mobile.ViewModels
         {
             if (!ValidateRegistration())
             {
-                await Shell.Current.DisplayAlert("Registration Incomplete", "Please fill in all fields to register.", "OK");
+                if (!IsValidEmail(Email))
+                {
+                    await Shell.Current.DisplayAlert("Invalid Email", "Please enter a valid email address.", "OK");
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Registration Incomplete", "Please fill in all fields to register.", "OK");
+                }
                 return;
             }
 
@@ -85,7 +112,7 @@ namespace flashcard_mobile.ViewModels
             {
                 Name = this.Name,
                 Email = this.Email,
-                Password = this.Password  
+                Password = this.Password
             };
 
             try

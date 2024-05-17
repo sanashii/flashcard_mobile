@@ -1,21 +1,19 @@
 ﻿using flashcard_mobile.Views;
 using flashcard_mobile.Services;
-using System.IO;
-using Microsoft.Maui.Storage;
 
 namespace flashcard_mobile
 {
     public partial class App : Application
     {
         public static DataService DataService { get; private set; }
+        public static string CurrentUserEmail { get; set; }
 
         public App()
         {
             InitializeComponent();
 
-            var dbPath = Path.Combine(FileSystem.AppDataDirectory, "userdatabase.db");
-            DataService = new DataService(dbPath);
-
+            // Initialize the DataService as an in-memory service
+            DataService = new DataService();
 
             MainPage = new AppShell();
         }

@@ -11,6 +11,6 @@
     <ShellContent Route="login" ContentTemplate="{DataTemplate views:LoginPage}" />
     <ShellContent Route="register" ContentTemplate="{DataTemplate views:RegisterPage}" />
     <ShellContent Route="home" ContentTemplate="{DataTemplate views:HomePage}" />
-    <!-- Add other pages as needed -->
+    <!-- Add other pages as needed such as EditPage -->
 
 </Shell>

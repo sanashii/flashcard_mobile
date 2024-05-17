@@ -1,12 +1,32 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="flashcard_mobile.Views.HomePage"
-             Title="HomePage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             xmlns:vm="clr-namespace:flashcard_mobile.ViewModels"
+             Title="FlashIt">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="My Account"
+                     Clicked="OnMyAccountClicked"
+                     Order="Primary"
+                     Priority="0"/>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.BindingContext>
+        <vm:HomePageViewModel />
+    </ContentPage.BindingContext>
+
+    <StackLayout>
+        <ListView ItemsSource="{Binding Decks}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding DeckName}" Detail="{Binding Category}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Button Text="Load Decks"
+                Command="{Binding LoadDecksCommand}" />
+
+        <!-- Add more UI elements for adding and deleting decks as needed -->
+    </StackLayout>
 </ContentPage>

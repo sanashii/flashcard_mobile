@@ -6,57 +6,60 @@ namespace flashcard_mobile.Services
 {
     public class DataService
     {
-        private readonly string _dbPath;
+        private readonly Dictionary<string, User> _usersInSession = new Dictionary<string, User>();
+        private readonly Dictionary<string, List<Deck>> _decksByUser = new Dictionary<string, List<Deck>>();
 
-        public DataService(string dbPath)
+        public Task AddUserAsync(User user)
         {
-            _dbPath = dbPath;
-            InitializeDatabase();
-        }
-
-        private void InitializeDatabase()
-        {
-            using var connection = new SqliteConnection($"Filename={_dbPath}");
-            connection.Open();
-
-            var command = new SqliteCommand("CREATE TABLE IF NOT EXISTS Users (Id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Email TEXT UNIQUE, Password TEXT)", connection);
-            command.ExecuteNonQuery();
-        }
-
-        public async Task AddUserAsync(User user)
-        {
-            using var connection = new SqliteConnection($"Filename={_dbPath}");
-            await connection.OpenAsync();
-
-            var command = new SqliteCommand("INSERT INTO Users (Name, Email, Password) VALUES (@Name, @Email, @Password)", connection);
-            command.Parameters.AddWithValue("@Name", user.Name);
-            command.Parameters.AddWithValue("@Email", user.Email);
-            command.Parameters.AddWithValue("@Password", user.Password);
-
-            await command.ExecuteNonQueryAsync();
-        }
-
-        public async Task<User> GetUserAsync(string email)
-        {
-            using var connection = new SqliteConnection($"Filename={_dbPath}");
-            await connection.OpenAsync();
-
-            var command = new SqliteCommand("SELECT * FROM Users WHERE Email = @Email", connection);
-            command.Parameters.AddWithValue("@Email", email);
-
-            using var reader = await command.ExecuteReaderAsync();
-            if (await reader.ReadAsync())
+            if (!_usersInSession.ContainsKey(user.Email))
             {
-                return new User
-                {
-                    Id = reader.GetInt32(0),
-                    Name = reader.GetString(1),
-                    Email = reader.GetString(2),
-                    Password = reader.GetString(3)
-                };
+                _usersInSession[user.Email] = user;
+                _decksByUser[user.Email] = new List<Deck>(); // Initialize empty list of decks for each user
             }
-
-            return null;
+            return Task.CompletedTask;
         }
+
+        public Task<User> GetUserAsync(string email)
+        {
+            if (_usersInSession.TryGetValue(email, out User user))
+            {
+                return Task.FromResult(user);
+            }
+            return Task.FromResult<User>(null);
+        }
+
+        // CRUD operations for decks
+        public Task AddDeckAsync(string userEmail, Deck deck)
+        {
+            if (_decksByUser.TryGetValue(userEmail, out List<Deck> decks))
+            {
+                decks.Add(deck);
+            }
+            return Task.CompletedTask;
+        }
+
+        public Task<IEnumerable<Deck>> GetDecksAsync(string userEmail)
+        {
+            if (_decksByUser.TryGetValue(userEmail, out List<Deck> decks))
+            {
+                return Task.FromResult<IEnumerable<Deck>>(decks);
+            }
+            return Task.FromResult<IEnumerable<Deck>>(new List<Deck>());
+        }
+
+        public Task DeleteDeckAsync(string userEmail, string deckName)
+        {
+            if (_decksByUser.TryGetValue(userEmail, out List<Deck> decks))
+            {
+                var deckToRemove = decks.FirstOrDefault(d => d.DeckName == deckName);
+                if (deckToRemove != null)
+                {
+                    decks.Remove(deckToRemove);
+                }
+            }
+            return Task.CompletedTask;
+        }
+
+        // More methods can be added to manage cards within decks
     }
 }

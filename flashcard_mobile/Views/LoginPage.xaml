@@ -24,7 +24,10 @@
         <Entry Text="{Binding Email, Mode=TwoWay}" Placeholder="Email" />
         <Entry Text="{Binding Password, Mode=TwoWay}" Placeholder="Password" IsPassword="True" />
 
-        <Button Command="{Binding LoginCommand}" Text="Log In" />
+        <Button Text="Login"
+                Command="{Binding LoginCommand}"
+                IsEnabled="{Binding LoginCommand.CanExecute}"/>
+
 
         <Label Text="Don't have an account?" HorizontalOptions="Center" />
         <Button Command="{Binding NavigateToRegisterCommand}" Text="Go to Register" />

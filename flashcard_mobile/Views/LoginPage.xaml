@@ -1,0 +1,22 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="flashcard_mobile.Views.LoginPage"             
+             xmlns:viewModels="clr-namespace:flashcard_mobile.ViewModels"
+             Shell.NavBarIsVisible="False"
+             Title="Login Page">
+    <ContentPage.BindingContext>
+        <viewModels:LoginPageViewModel />
+    </ContentPage.BindingContext>
+
+    <StackLayout Padding="30" Spacing="20">
+        <Entry Text="{Binding Email, Mode=TwoWay}" Placeholder="Email" />
+        <Entry Text="{Binding Password, Mode=TwoWay}" Placeholder="Password" IsPassword="True" />
+
+        <Button Command="{Binding LoginCommand}" Text="Log In" />
+
+        <Label Text="Don't have an account?" HorizontalOptions="Center" />
+        <Button Command="{Binding NavigateToRegisterCommand}" Text="Go to Register" />
+
+    </StackLayout>
+    
+</ContentPage>

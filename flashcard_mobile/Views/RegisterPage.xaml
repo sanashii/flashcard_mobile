@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="flashcard_mobile.Views.RegisterPage"
              xmlns:vm="clr-namespace:flashcard_mobile.ViewModels"
+             xmlns:local="clr-namespace:flashcard_mobile.Converters"
              Shell.NavBarIsVisible="False"
              Title="Register Page">
 
@@ -12,11 +13,28 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
             <Style TargetType="Entry">
                 <Setter Property="Margin" Value="20"/>
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
+
+    <Entry x:Name="nameEntry"
+       Placeholder="Name"
+       ReturnType="Next"
+       Completed="OnNameCompleted" />
+
+    <Entry x:Name="emailEntry"
+       Placeholder="Email"
+       ReturnType="Next"
+       Completed="OnEmailCompleted" />
+
+    <Entry x:Name="passwordEntry"
+       Placeholder="Password"
+       ReturnType="Done"
+       Completed="OnPasswordCompleted" />
+
 
     <ScrollView>
         <StackLayout Spacing="15" Padding="30">
@@ -37,12 +55,12 @@
             <!-- Registration Button -->
             <Button Text="Register"
                     Command="{Binding RegisterCommand}"
-                    IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"/>
+                    IsEnabled="True"/>
 
             <!-- Navigate to Login Page -->
             <Button Text="Already have an account? Login"
                     Command="{Binding NavigateToLoginCommand}"
-                    IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"/>
+                    IsEnabled="True"/>      
 
             <!-- Busy Indicator -->
             <ActivityIndicator IsVisible="{Binding IsBusy}"
@@ -50,4 +68,3 @@
         </StackLayout>
     </ScrollView>
 </ContentPage>
-

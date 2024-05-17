@@ -21,4 +21,3 @@ namespace flashcard_mobile
         }
     }
 }
-

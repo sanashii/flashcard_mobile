@@ -10,5 +10,37 @@ public partial class LoginPage : ContentPage
         InitializeComponent();
         BindingContext = new LoginPageViewModel();
     }
-}
 
+    private void OnEmailCompleted(object sender, EventArgs e)
+    {
+        passwordEntry.Focus();
+    }
+
+    private void OnPasswordCompleted(object sender, EventArgs e)
+    {
+        if (this.BindingContext is LoginPageViewModel loginViewModel)
+        {
+            loginViewModel.LoginCommand.Execute(null);
+        }
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        ResetFields();
+    }
+
+    private void ResetFields()
+    {
+        if (BindingContext is LoginPageViewModel viewModel)
+        {
+            viewModel.Email = string.Empty;
+            viewModel.Password = string.Empty;
+        }
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+    }
+}

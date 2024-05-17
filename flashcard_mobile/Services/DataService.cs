@@ -1,5 +1,4 @@
-﻿// Located in DataService.cs within the Services folder
-using flashcard_mobile.Models;
+﻿using flashcard_mobile.Models;
 using Microsoft.Data.Sqlite;
 using System.Threading.Tasks;
 

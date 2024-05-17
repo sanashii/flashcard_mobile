@@ -44,8 +44,16 @@ namespace flashcard_mobile.ViewModels
         public RegisterPageViewModel()
         {
             NavigateToLoginCommand = new Command(async () => await Shell.Current.GoToAsync("//login"));
-            RegisterCommand = new Command(async () => await ExecuteRegisterCommand(), () => !IsBusy && ValidateRegistration());
+            RegisterCommand = new Command(
+                execute: async () => await ExecuteRegisterCommand(),
+                canExecute: () => ValidateRegistration()
+            );
+
+            // These properties change should notify the Command to re-evaluate its CanExecute state.
+            this.PropertyChanged +=
+                (_, __) => ((Command)RegisterCommand).ChangeCanExecute();
         }
+
 
         private bool SetProperty<T>(ref T backingStore, T value, [CallerMemberName] string propertyName = "")
         {
@@ -77,7 +85,7 @@ namespace flashcard_mobile.ViewModels
             {
                 Name = this.Name,
                 Email = this.Email,
-                Password = this.Password  // Reminder: Hash in production!
+                Password = this.Password  
             };
 
             try

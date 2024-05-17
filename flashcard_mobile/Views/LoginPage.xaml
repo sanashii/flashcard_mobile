@@ -8,6 +8,18 @@
         <viewModels:LoginPageViewModel />
     </ContentPage.BindingContext>
 
+    <Entry x:Name="emailEntry"
+       Placeholder="Enter email"
+       ReturnType="Next"
+       Completed="OnEmailCompleted" />
+
+    <Entry x:Name="passwordEntry"
+       Placeholder="Password"
+       IsPassword="True"
+       ReturnType="Done"
+       Completed="OnPasswordCompleted" />
+
+
     <StackLayout Padding="30" Spacing="20">
         <Entry Text="{Binding Email, Mode=TwoWay}" Placeholder="Email" />
         <Entry Text="{Binding Password, Mode=TwoWay}" Placeholder="Password" IsPassword="True" />
@@ -18,5 +30,5 @@
         <Button Command="{Binding NavigateToRegisterCommand}" Text="Go to Register" />
 
     </StackLayout>
-    
+
 </ContentPage>

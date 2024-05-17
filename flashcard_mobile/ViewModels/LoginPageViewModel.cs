@@ -10,19 +10,19 @@ namespace flashcard_mobile.ViewModels
 {
     public class LoginPageViewModel : BindableObject
     {
-        private string? email;
-        private string? password;
+        private string _email = string.Empty;
+        private string _password = string.Empty;
 
         public string Email
         {
-            get => email;
-            set => SetProperty(ref email, value);
+            get => _email;
+            set => SetProperty(ref _email, value);
         }
 
         public string Password
         {
-            get => password;
-            set => SetProperty(ref password, value);
+            get => _password;
+            set => SetProperty(ref _password, value);
         }
 
         public ICommand NavigateToRegisterCommand { get; }
@@ -31,8 +31,16 @@ namespace flashcard_mobile.ViewModels
         public LoginPageViewModel()
         {
             NavigateToRegisterCommand = new Command(async () => await Shell.Current.GoToAsync("//register"));
-            LoginCommand = new Command(async () => await Login(Email, Password));
+            LoginCommand = new Command(async () =>
+            {
+                if (!string.IsNullOrWhiteSpace(Email) && !string.IsNullOrWhiteSpace(Password))
+                {
+                    await Login(Email, Password);
+                }
+            },
+            () => !string.IsNullOrWhiteSpace(Email) && !string.IsNullOrWhiteSpace(Password));  // Ensure email and password are not empty
         }
+
 
         private bool SetProperty<T>(ref T backingStore, T value, [CallerMemberName] string propertyName = "")
         {

@@ -1,32 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="flashcard_mobile.Views.HomePage"
-             xmlns:vm="clr-namespace:flashcard_mobile.ViewModels"
-             Title="FLASHit">
-
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="My Account"
-                     Clicked="OnMyAccountClicked"
-                     Order="Primary"
-                     Priority="0"/>
-    </ContentPage.ToolbarItems>
+             xmlns:viewModels="clr-namespace:flashcard_mobile.ViewModels"
+             Shell.NavBarIsVisible="False"
+             Title="User Main Page"
+             BackgroundColor="#001233">
 
     <ContentPage.BindingContext>
-        <vm:HomePageViewModel />
+        <viewModels:HomePageViewModel />
     </ContentPage.BindingContext>
 
-    <StackLayout>
-        <ListView ItemsSource="{Binding Decks}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell Text="{Binding DeckName}" Detail="{Binding Category}" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <LinearGradientBrush x:Key="BackgroundGradient"
+                                 StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#001233" Offset="0.1"/>
+                <GradientStop Color="#2575fc" Offset="1.0"/>
+            </LinearGradientBrush>
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
-        <Button Text="Load Decks"
-                Command="{Binding LoadDecksCommand}" />
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#001233" Offset="0.1"/>
+            <GradientStop Color="#2575fc" Offset="1.0"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
 
-        <!-- Add more UI elements for adding and deleting decks as needed -->
-    </StackLayout>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Top bar with search and My Account -->
+        <StackLayout Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Padding="10">
+            <Entry Placeholder="Search"
+                   Margin="0,10,0,10"
+                   HorizontalOptions="FillAndExpand"
+                   Text="{Binding SearchQuery, Mode=TwoWay}"
+                   TextColor="White"/>
+            <Button Text="My Account"
+                    Clicked="OnMyAccountClicked"
+                    BackgroundColor="Transparent"
+                    TextColor="White"/>
+        </StackLayout>
+
+        <!-- Content -->
+        <ScrollView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            <StackLayout Padding="10">
+                <Button Text="Create New Deck"
+                        BackgroundColor="LightGray"
+                        TextColor="Black"
+                        Margin="0,10,0,10"/>
+
+                <CollectionView ItemsSource="{Binding FilteredDecks}" x:Name="HomePage">
+                    <CollectionView.GroupHeaderTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding Category}"
+                   FontSize="Large"
+                   FontAttributes="Bold"/>
+                        </DataTemplate>
+                    </CollectionView.GroupHeaderTemplate>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BorderColor="Black"
+                                   CornerRadius="5"
+                                   Padding="10"
+                                   Margin="5">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.DeckSelectedCommand, Source={x:Reference HomePage}}" CommandParameter="{Binding}" />
+                                </Frame.GestureRecognizers>
+                                <StackLayout>
+                                    <Label Text="{Binding DeckName}"
+                                           FontAttributes="Bold"/>
+                                    <Label Text="{Binding Category}"
+                                           FontAttributes="Italic"/>
+                                    <Label Text="{Binding CardCount, StringFormat='{0} questions'}"/>
+                                </StackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </ScrollView>
+
+        <!-- Overlay (This should be at the end to ensure it's above other content) -->
+        <BoxView x:Name="Overlay"
+                 BackgroundColor="Black"
+                 Opacity="0.3"
+                 IsVisible="False"
+                 Grid.RowSpan="2"
+                 Grid.ColumnSpan="2"/>
+    </Grid>
 </ContentPage>

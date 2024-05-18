@@ -69,22 +69,27 @@ namespace flashcard_mobile.ViewModels
 
         public async Task Login(string email, string password)
         {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            {
+                await Shell.Current.DisplayAlert("Error", "Email and password must not be empty.", "OK");
+                return;
+            }
+
             var user = await App.DataService.GetUserAsync(email);
             if (user != null && user.Password == password)
             {
-                // Handle successful login
+                App.CurrentUserEmail = email;
                 await Shell.Current.GoToAsync("//home");
             }
             else if (email == "admin" && password == "admin")
             {
-                // Handle successful login
                 await Shell.Current.GoToAsync("//home");
             }
             else
             {
-                // Handle failed login or user not existing
                 await Shell.Current.DisplayAlert("Login Failed", "Invalid username or password, or account does not exist.", "OK");
             }
         }
+
     }
 }

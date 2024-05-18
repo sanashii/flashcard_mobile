@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               x:Class="flashcard_mobile.Views.DeckDetailsPopup">
+
+    <StackLayout Padding="20" BackgroundColor="White" WidthRequest="300" HeightRequest="400">
+        <Label Text="{Binding DeckName}" FontAttributes="Bold" FontSize="Large"/>
+        <Label Text="{Binding Description}"/>
+        <Label Text="{Binding CardCount, StringFormat='{0} questions'}"/>
+        <Button Text="Scan Flashcard" Margin="0,20,0,0"/>
+    </StackLayout>
+</toolkit:Popup>

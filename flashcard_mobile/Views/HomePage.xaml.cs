@@ -1,12 +1,14 @@
 using Microsoft.Maui.Controls;
 using flashcard_mobile.ViewModels;
 using CommunityToolkit.Maui.Views;
+using flashcard_mobile.Models;
 
 namespace flashcard_mobile.Views
 {
     public partial class HomePage : ContentPage
     {
         private AccountPopup _accountPopup;
+        private DeckDetailsPopup _deckDetailsPopup;
         private bool _isPopupOpen;
 
         public HomePage()
@@ -34,17 +36,58 @@ namespace flashcard_mobile.Views
             _accountPopup.Closed += (s, e) =>
             {
                 _isPopupOpen = false;
+                Overlay.IsVisible = false; // Hide overlay when popup is closed
             };
 
             this.ShowPopup(_accountPopup);
             _isPopupOpen = true;
+            Overlay.IsVisible = true; // Show overlay when popup is open
+        }
+
+        private void OnDeckTapped(object sender, EventArgs e)
+        {
+            if (_isPopupOpen)
+            {
+                ClosePopup();
+            }
+            else
+            {
+                var deck = (sender as BindableObject)?.BindingContext as Deck;
+                if (deck != null)
+                {
+                    ShowDeckDetailsPopup(deck);
+                }
+            }
+        }
+
+        private void ShowDeckDetailsPopup(Deck deck)
+        {
+            var popup = new DeckDetailsPopup(deck);
+            popup.Closed += (s, e) =>
+            {
+                _isPopupOpen = false;
+                Overlay.IsVisible = false;
+            };
+
+            this.ShowPopup(popup);
+            _isPopupOpen = true;
+            Overlay.IsVisible = true;
         }
 
         private void ClosePopup()
         {
-            if (_accountPopup != null && _isPopupOpen)
+            if (_isPopupOpen)
             {
-                _accountPopup.Close();
+                if (_accountPopup != null)
+                {
+                    _accountPopup.Close();
+                }
+                if (_deckDetailsPopup != null)
+                {
+                    _deckDetailsPopup.Close();
+                }
+                Overlay.IsVisible = false;
+                _isPopupOpen = false;
             }
         }
     }

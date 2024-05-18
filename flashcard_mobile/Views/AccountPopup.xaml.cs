@@ -10,10 +10,11 @@ namespace flashcard_mobile.Views
             InitializeComponent();
         }
 
-        /* private async void OnEditAccountClicked(object sender, EventArgs e)
+        /* private async void OnViewDecksClicked(object sender, EventArgs e)
         {
             Close();
-            await Shell.Current.GoToAsync("//editaccount");
+            // Navigate to view decks page
+            await Shell.Current.GoToAsync("//viewdecks");
         } */
 
         private async void OnLogoutClicked(object sender, EventArgs e)

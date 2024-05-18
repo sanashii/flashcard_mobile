@@ -2,19 +2,40 @@
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-               x:Class="flashcard_mobile.Views.AccountPopup" >
+               x:Class="flashcard_mobile.Views.AccountPopup"
+               >
 
     <AbsoluteLayout BackgroundColor="Transparent">
         <StackLayout BackgroundColor="LightGray"
                      Padding="10"
                      AbsoluteLayout.LayoutBounds="1, 0, -1, -1"
                      AbsoluteLayout.LayoutFlags="PositionProportional">
-            <Button Text="Edit Account"
+            <!-- Profile Photo -->
+            <Image Source="user.png" 
+                   WidthRequest="100" 
+                   HeightRequest="100" 
+                   Aspect="AspectFill"
+                   HorizontalOptions="Center" 
+                   VerticalOptions="Center" 
+                   Margin="0,0,0,10"/>
+
+            <!-- View Decks Button -->
+            <Button Text="View Decks"
                     TextColor="Black"
                     BackgroundColor="LightGray"
                     CornerRadius="0"
-                     />
-            <!-- add ^^ Clicked="OnEditAccountClicked" -->
+                    />
+            <!-- add lng nya ^^ Clicked="OnViewDecksClicked -->
+
+            <!-- Edit Account Button -->
+            <Button Text="Edit Account"
+                    TextColor="Black"
+                    BackgroundColor="LightGray"
+                    CornerRadius="0" 
+                    />
+            <!-- add lng nya ^^ Clicked="OnEditAccountClicked -->
+
+            <!-- Logout Button -->
             <Button Text="Logout"
                     TextColor="Red"
                     BackgroundColor="LightGray"

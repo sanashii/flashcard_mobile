@@ -1,52 +1,84 @@
-﻿using System.Collections.ObjectModel;
+﻿using flashcard_mobile.Models;
+using flashcard_mobile.Services;
+using flashcard_mobile.Converters
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
-using flashcard_mobile.Models;
-using flashcard_mobile.Services;
-using System.Windows.Input;
 
 namespace flashcard_mobile.ViewModels
 {
     public class HomePageViewModel : BindableObject
     {
-        /*public ObservableCollection<Deck> Decks { get; } = new ObservableCollection<Deck>();
+        private readonly DataService _dataService;
+        private ObservableCollection<Deck> _decks;
+        private ObservableCollection<Deck> _filteredDecks;
+        private string _searchQuery;
 
-        public ICommand LoadDecksCommand { get; private set; }
-        public ICommand AddDeckCommand { get; private set; }
-        public ICommand DeleteDeckCommand { get; private set; }
+        public ObservableCollection<Deck> Decks
+        {
+            get => _decks;
+            set
+            {
+                _decks = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<Deck> FilteredDecks
+        {
+            get => _filteredDecks;
+            set
+            {
+                _filteredDecks = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string SearchQuery
+        {
+            get => _searchQuery;
+            set
+            {
+                _searchQuery = value;
+                OnPropertyChanged();
+                FilterDecks();
+            }
+        }
 
         public HomePageViewModel()
         {
-            LoadDecksCommand = new Command(async () => await LoadDecks());
-            AddDeckCommand = new Command<Deck>(async deck => await AddDeck(deck));
-            DeleteDeckCommand = new Command<string>(async deckName => await DeleteDeck(deckName));
+            _dataService = App.DataService;
+            LoadDecks();
         }
 
-        private async Task LoadDecks()
+        private async void LoadDecks()
         {
-            var decks = await App.DataService.GetDecksAsync(App.DataService.CurrentUserEmail);
-            Decks.Clear();
-            foreach (var deck in decks)
+            var currentUserEmail = App.CurrentUserEmail; // Assuming you have a property to get the current logged-in user email
+            var decks = await _dataService.GetDecksAsync(currentUserEmail);
+            Decks = new ObservableCollection<Deck>(decks);
+            FilteredDecks = new ObservableCollection<Deck>(decks);
+        }
+
+        private void FilterDecks()
+        {
+            if (string.IsNullOrWhiteSpace(SearchQuery))
             {
-                Decks.Add(deck);
+                FilteredDecks = new ObservableCollection<Deck>(Decks);
+            }
+            else
+            {
+                var filtered = Decks.Where(d => d.DeckName.ToLower().Contains(SearchQuery.ToLower()) ||
+                                                d.Category.ToLower().Contains(SearchQuery.ToLower()));
+                FilteredDecks = new ObservableCollection<Deck>(filtered);
             }
         }
 
-        private async Task AddDeck(Deck deck)
+        private void OpenDeckDetails(Deck deck)
         {
-            await App.DataService.AddDeckAsync(App.DataService.CurrentUserEmail, deck);
-            Decks.Add(deck);
+            // This method should handle opening the DeckDetailsPopup
+            ShowDeckDetailsPopup(deck); //(This method should be in HomePage.xaml.cs and should handle the logic to display the popup)
         }
-
-        private async Task DeleteDeck(string deckName)
-        {
-            await App.DataService.DeleteDeckAsync(App.DataService.CurrentUserEmail, deckName);
-            var deck = Decks.FirstOrDefault(d => d.DeckName == deckName);
-            if (deck != null)
-            {
-                Decks.Remove(deck);
-            }
-        } */
-    } 
+    }
 }

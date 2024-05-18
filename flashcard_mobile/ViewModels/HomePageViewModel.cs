@@ -1,6 +1,6 @@
 ﻿using flashcard_mobile.Models;
 using flashcard_mobile.Services;
-using flashcard_mobile.Converters
+using flashcard_mobile.Converters;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -75,10 +75,10 @@ namespace flashcard_mobile.ViewModels
             }
         }
 
-        private void OpenDeckDetails(Deck deck)
+        /* private void OpenDeckDetails(Deck deck)
         {
             // This method should handle opening the DeckDetailsPopup
             ShowDeckDetailsPopup(deck); //(This method should be in HomePage.xaml.cs and should handle the logic to display the popup)
-        }
+        } */
     }
 }

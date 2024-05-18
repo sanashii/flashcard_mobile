@@ -1,6 +1,10 @@
 # flashcard_mobile/ FLASH it (tentative lol)
 ### NOTE: if an issue such as "InitializeComponent() does not exist in this context" or something related to that, just clean and rebuild the project. If issues persist, restart your Visual Studio since this has been a common problem.
 
+### Flow:
+- user & pass: admin (for easy access when debugging)
+- register first then login using the newly registered acc (this is because the data is only exclusive per session 
+
 `Converter`
 - defined for page traversals (used in `Register/LoginPage.xaml`).
 

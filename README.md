@@ -1,4 +1,4 @@
-# flashcard_mobile/ FLASH it (tentative lol)
+# flashcard_mobile/ FLASH it (tentative lool)
 ### NOTE: if an issue such as "InitializeComponent() does not exist in this context" or something related to that, just clean and rebuild the project. If issues persist, restart your Visual Studio since this has been a common problem.
 
 ### Flow:

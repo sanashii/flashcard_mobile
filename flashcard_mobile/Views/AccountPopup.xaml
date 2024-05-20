@@ -31,6 +31,7 @@
             <Button Text="Edit Account"
                     TextColor="Black"
                     BackgroundColor="LightGray"
+                    Clicked="OnEditAccountClicked"
                     CornerRadius="0" 
                     />
             <!-- add lng nya ^^ Clicked="OnEditAccountClicked -->

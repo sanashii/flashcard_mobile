@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="flashcard_mobile.Views.EditAccountPage"
+             Title="Edit Account"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#001233">
+    <VerticalStackLayout>
+        <StackLayout Padding="10">
+            <Label Text="Update Account Details" FontSize="Large" HorizontalOptions="Center"/>
+            <Entry x:Name="UsernameEntry" Placeholder="Username"/>
+            <Entry x:Name="EmailEntry" Placeholder="Email" Keyboard="Email"/>
+            <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True"/>
+            <Button Text="Save Changes" Clicked="OnSaveChangesClicked"/>
+        </StackLayout>
+    </VerticalStackLayout>
+</ContentPage>

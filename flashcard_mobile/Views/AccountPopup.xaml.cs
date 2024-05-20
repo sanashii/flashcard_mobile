@@ -10,6 +10,12 @@ namespace flashcard_mobile.Views
             InitializeComponent();
         }
 
+        private async void OnEditAccountClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("//editaccount");
+        }
+
+
         /* private async void OnViewDecksClicked(object sender, EventArgs e)
         {
             Close();

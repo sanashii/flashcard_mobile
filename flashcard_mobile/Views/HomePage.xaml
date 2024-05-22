@@ -50,22 +50,35 @@
                        VerticalOptions="Center"
                        Margin="10,0"/>
             </Frame>
-            <Button Text="My Account"
-                    Clicked="OnMyAccountClicked"
-                    BackgroundColor="#0052cc"
-                    TextColor="White"
-                    CornerRadius="20"
-                    WidthRequest="120"
-                    Margin="0,10"/>
+            <Button Text="{Binding AccountButtonText}"
+            Clicked="OnMyAccountClicked"
+            TextColor="White"
+            CornerRadius="20"
+            WidthRequest="120"
+            Margin="0,10">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding IsUserLoggedIn}" Value="False">
+                        <Setter Property="BackgroundColor" Value="#FF595A" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button" Binding="{Binding IsUserLoggedIn}" Value="True">
+                        <Setter Property="BorderColor" Value="White" />
+                        <Setter Property="BorderWidth" Value="2"/>
+                        <Setter Property="BackgroundColor" Value="Transparent" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
         </StackLayout>
 
         <!-- Content -->
         <ScrollView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <StackLayout Padding="10">
                 <Button Text="Create New Deck"
-                        BackgroundColor="LightGray"
-                        TextColor="Black"
+                        IsVisible="{Binding IsUserLoggedIn}"
+                        BackgroundColor="#FF595A"
+                        TextColor="White"
+                        FontSize="Large"
                         Margin="0,10,0,10"/>
+                
 
                 <CollectionView ItemsSource="{Binding FilteredDecks}" x:Name="DecksView">
                     <CollectionView.GroupHeaderTemplate>
@@ -80,9 +93,9 @@
                                     <TapGestureRecognizer Command="{Binding Path=BindingContext.DeckSelectedCommand, Source={x:Reference HomePage}}" CommandParameter="{Binding}"/>
                                 </Frame.GestureRecognizers>
                                 <StackLayout>
-                                    <Label Text="{Binding DeckName}" FontAttributes="Bold"/>
-                                    <Label Text="{Binding Category}" FontAttributes="Italic"/>
-                                    <Label Text="{Binding CardCount, StringFormat='{0} questions'}"/>
+                                    <Label Text="{Binding DeckName}" FontAttributes="Bold" TextColor="Black"/>
+                                    <Label Text="{Binding Category}" FontAttributes="Italic" TextColor="Black"/>
+                                    <Label Text="{Binding CardCount, StringFormat='{0} questions'}" TextColor="Black"/>
                                 </StackLayout>
                             </Frame>
                         </DataTemplate>

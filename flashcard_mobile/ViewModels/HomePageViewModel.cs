@@ -6,15 +6,71 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
+using flashcard_mobile.Views;
 
 namespace flashcard_mobile.ViewModels
 {
     public class HomePageViewModel : BindableObject
     {
         private readonly DataService _dataService;
+        private readonly SessionService _sessionService;
         private ObservableCollection<Deck> _decks;
         private ObservableCollection<Deck> _filteredDecks;
         private string _searchQuery;
+
+        private string _accountButtonText {  get; set; }
+        private bool _isUserLoggedIn { get; set; }
+
+        public HomePageViewModel()
+        {
+            _dataService = App.DataService;
+            _sessionService = App.SessionService;
+            LoadDecks();
+        }
+
+        public void RefreshData()
+        {
+            UpdateAccountButtonText();
+            UpdateIsUserLoggedIn();
+
+        }
+
+        public string AccountButtonText
+        {
+            get => _accountButtonText;
+            set
+            {
+                if (_accountButtonText != value)
+                {
+                    _accountButtonText = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public void UpdateAccountButtonText()
+        {
+            AccountButtonText = _sessionService.IsLoggedIn ? "My Account" : "Log In";
+        }
+
+
+        public bool IsUserLoggedIn
+        {
+            get => _isUserLoggedIn;
+            private set
+            {
+                if (_isUserLoggedIn != value)
+                {
+                    _isUserLoggedIn = value;
+                    OnPropertyChanged(); 
+                }
+            }
+        }
+
+        public void UpdateIsUserLoggedIn()
+        {
+            IsUserLoggedIn = _sessionService.IsLoggedIn;
+        }
 
         public ObservableCollection<Deck> Decks
         {
@@ -36,6 +92,15 @@ namespace flashcard_mobile.ViewModels
             }
         }
 
+        private async void LoadDecks()
+        {
+            var currentUserEmail = App.CurrentUserEmail;
+            var decks = await _dataService.GetAllDecksAsync();
+            Decks = new ObservableCollection<Deck>(decks);
+            FilteredDecks = new ObservableCollection<Deck>(decks);
+
+        }
+
         public string SearchQuery
         {
             get => _searchQuery;
@@ -45,20 +110,6 @@ namespace flashcard_mobile.ViewModels
                 OnPropertyChanged();
                 FilterDecks();
             }
-        }
-
-        public HomePageViewModel()
-        {
-            _dataService = App.DataService;
-            LoadDecks();
-        }
-
-        private async void LoadDecks()
-        {
-            var currentUserEmail = App.CurrentUserEmail; // Assuming you have a property to get the current logged-in user email
-            var decks = await _dataService.GetDecksAsync(currentUserEmail);
-            Decks = new ObservableCollection<Deck>(decks);
-            FilteredDecks = new ObservableCollection<Deck>(decks);
         }
 
         private void FilterDecks()
@@ -81,4 +132,4 @@ namespace flashcard_mobile.ViewModels
             ShowDeckDetailsPopup(deck); //(This method should be in HomePage.xaml.cs and should handle the logic to display the popup)
         } */
     }
-}
+    }

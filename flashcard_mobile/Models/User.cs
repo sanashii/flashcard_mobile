@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace flashcard_mobile.Models
         public string Name { get; set; } = string.Empty;  // Non-nullable string, initialized to empty
         public string Email { get; set; } = string.Empty;  // Non-nullable string, initialized to empty
         public string Password { get; set; } = string.Empty;  // Non-nullable string, initialized to empty
+
     }
 
 }

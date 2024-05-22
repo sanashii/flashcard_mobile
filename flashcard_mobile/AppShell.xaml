@@ -8,9 +8,11 @@
     Shell.FlyoutBehavior="Disabled"
     Title="flashcard_mobile">
 
+    <ShellContent Route="home" ContentTemplate="{DataTemplate views:HomePage}" />
+    <ShellContent Route="account" ContentTemplate="{DataTemplate views:AccountPage}" />
+    <ShellContent Route="blank" ContentTemplate="{DataTemplate views:LoadingPage}" />
     <ShellContent Route="login" ContentTemplate="{DataTemplate views:LoginPage}" />
     <ShellContent Route="register" ContentTemplate="{DataTemplate views:RegisterPage}" />
-    <ShellContent Route="home" ContentTemplate="{DataTemplate views:HomePage}" />
     <ShellContent Route="editaccount" ContentTemplate="{DataTemplate views:EditAccountPage}" />
 
     <!-- Add other pages as needed such as EditPage -->

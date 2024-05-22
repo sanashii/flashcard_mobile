@@ -1,5 +1,8 @@
-﻿using flashcard_mobile.Models;
+﻿using Android.Webkit;
+using flashcard_mobile.Models;
+using Org.BouncyCastle.Security;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,6 +13,9 @@ namespace flashcard_mobile.Services
         private readonly Dictionary<string, User> _usersInSession = new Dictionary<string, User>();
         private readonly Dictionary<string, List<Deck>> _decksByUser = new Dictionary<string, List<Deck>>();
         private readonly List<Deck> _staticDecks = new List<Deck>();
+        private readonly List<Category> _categories = new List<Category>();
+
+        public Task<ObservableCollection<Deck>> DecksByUser { get; internal set; }
 
         public DataService()
         {
@@ -19,6 +25,8 @@ namespace flashcard_mobile.Services
 
         private void GenerateStaticData()
         {
+            AddUserAsync(new User { Name = "Queeny", Email = "q@gmail.com", Password = "qqq" });
+            App.SessionService.Login(_usersInSession["q@gmail.com"]);
             _staticDecks.AddRange(new List<Deck>
             {
                 new Deck
@@ -42,7 +50,8 @@ namespace flashcard_mobile.Services
                         new Card { Question = "Who officiates Sheldon and Amy's wedding?", Answer = "Mark Hamill" },
                         new Card { Question = "What kind of car does Leonard drive?", Answer = "Toyota Prius" },
                         new Card { Question = "What is the theme song of the show?", Answer = "The History of Everything by Barenaked Ladies" }
-                    }
+                    },
+                    Description = "Big Bang Theory Fun Facks"
                 },
 
                 new Deck
@@ -66,7 +75,9 @@ namespace flashcard_mobile.Services
                         new Card { Question = "The villain known for his shape-shifting abilities", Answer = "Chameleon" },
                         new Card { Question = "A villain who is a master of martial arts and once led the Sinister Six", Answer = "Kraven the Hunter" },
                         new Card { Question = "The villain who has a vampire-like appearance", Answer = "Morbius" }
-                    }
+                    },
+                    Description = "Do you watch spidey?"
+
                 },
 
                 new Deck
@@ -90,10 +101,57 @@ namespace flashcard_mobile.Services
                         new Card { Question = "What is Nobara Kugisaki's cursed technique?", Answer = "Straw Doll Technique" },
                         new Card { Question = "Which sorcerer is known for using Domain Expansion: Infinite Void?", Answer = "Satoru Gojo" },
                         new Card { Question = "What is the main antagonist group called in Jujutsu Kaisen?", Answer = "The Cursed Spirits" }
-                    }
+                    },
+                    Description = "Jujutsu Kaisen faks quizz"
                 },
-
             });
+            foreach (var deck in _staticDecks)
+            {
+                AddDeckToCategory(deck.Category, deck).Wait();
+            }
+        }
+
+        public Task AddDeckToCategory(string categoryName, Deck deck)
+        {
+            var category = _categories.FirstOrDefault(c => c.Name == categoryName);
+
+            // If the category exists, add the deck to its Decks collection
+            if (category != null)
+            {
+                category.Decks.Add(deck);
+            }
+            else
+            {
+                // Optionally, create a new category if it does not exist
+                category = new Category { Name = categoryName };
+                category.Decks.Add(deck);
+                _categories.Add(category);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        public Task<IEnumerable<Category>> GetCategoriesByUser(string userEmail, ObservableCollection<Deck> decks)
+        {
+            var categoryNames = decks.Select(deck => deck.Category).Distinct();
+            var categories = categoryNames.Select(categoryName =>
+            {
+                var category = new Category { Name = categoryName };
+                category.Decks = new ObservableCollection<Deck>(decks.Where(deck => deck.Category == categoryName));
+                return category;
+            });
+            return Task.FromResult<IEnumerable<Category>>(categories);
+        }
+        public Task GetCategories ()
+        {
+            return Task.FromResult( _categories );
+        }
+
+        public Task<IEnumerable<Deck>> GetDecksFromCategory(string categoryName, ObservableCollection<Deck> decks)
+        {
+            var filteredDecks = decks.Where(deck => deck.Category == categoryName);
+
+            return Task.FromResult<IEnumerable<Deck>>(filteredDecks);
         }
 
         public Task AddUserAsync(User user)
@@ -135,6 +193,11 @@ namespace flashcard_mobile.Services
             }
 
             return Task.FromResult<IEnumerable<Deck>>(result);
+        }
+
+        public Task<IEnumerable<Deck>> GetAllDecksAsync()
+        {
+            return Task.FromResult<IEnumerable<Deck>>(_staticDecks); 
         }
 
         public Task DeleteDeckAsync(string userEmail, string deckName)

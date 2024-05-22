@@ -1,0 +1,9 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="flashcard_mobile.Views.LoadingPage"
+             Title="Loading Page">
+    <ContentPage.Content>
+        <!-- This page can be left empty or have a simple loading indicator -->
+        <Label Text="Loading..." HorizontalOptions="Center" VerticalOptions="Center" />
+    </ContentPage.Content>
+</ContentPage>

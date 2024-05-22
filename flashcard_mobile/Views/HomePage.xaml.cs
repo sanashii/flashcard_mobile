@@ -15,21 +15,44 @@ namespace flashcard_mobile.Views
         {
             InitializeComponent();
             BindingContext = new HomePageViewModel();
-            _isPopupOpen = false;
+            _isPopupOpen = false;   
+            
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            if (BindingContext is HomePageViewModel viewModel)
+            {
+                viewModel.RefreshData();
+            }
+        }
+
+        private void ShowEmailPopup(string email)
+        {
+            var emailPopup = new EmailPopup(email);
+            this.ShowPopup(emailPopup);
+        }
+
+        private async void RedirectLoginOrAccount()
+        {
+            if (App.SessionService.IsLoggedIn)
+            {
+                await Navigation.PushAsync(new AccountPage());
+            }
+            else
+            {
+
+                await Navigation.PushAsync(new LoginPage());
+            }
         }
 
         private void OnMyAccountClicked(object sender, EventArgs e)
         {
-            if (_isPopupOpen)
-            {
-                ClosePopup();
-            }
-            else
-            {
-                ShowAccountPopup();
-            }
+            RedirectLoginOrAccount();
         }
-
+        /*
+         * 
         private void ShowAccountPopup()
         {
             _accountPopup = new AccountPopup(); // Create a new instance of AccountPopup
@@ -90,5 +113,6 @@ namespace flashcard_mobile.Views
                 _isPopupOpen = false;
             }
         }
+        */
     }
 }

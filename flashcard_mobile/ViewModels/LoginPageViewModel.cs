@@ -79,6 +79,7 @@ namespace flashcard_mobile.ViewModels
             if (user != null && user.Password == password)
             {
                 App.CurrentUserEmail = email;
+                App.SessionService.Login(user);
                 await Shell.Current.GoToAsync("//home");
             }
             else if (email == "admin" && password == "admin")

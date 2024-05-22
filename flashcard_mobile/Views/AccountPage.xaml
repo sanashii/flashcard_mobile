@@ -96,6 +96,9 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Frame Margin="3" Padding="3" BackgroundColor="Black" WidthRequest="154" HeightRequest="104">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.DeckSelectedCommand, Source={x:Reference AccountPage}}" CommandParameter="{Binding}"/>
+                                </Frame.GestureRecognizers>
                                 <Frame BorderColor="Black" Padding="10" WidthRequest="150" HeightRequest="100" HasShadow="False">
                                     <StackLayout>
                                         <Label LineBreakMode="TailTruncation" Margin="0,0,0,6" Text="{Binding DeckName}" TextColor="black" FontSize="Large"/>

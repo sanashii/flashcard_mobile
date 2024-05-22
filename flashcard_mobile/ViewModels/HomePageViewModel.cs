@@ -1,12 +1,10 @@
 ﻿using flashcard_mobile.Models;
 using flashcard_mobile.Services;
-using flashcard_mobile.Converters;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Maui.Controls;
 using flashcard_mobile.Views;
+using CommunityToolkit.Maui.Views;
+using System.Windows.Input;
+using Microsoft.Maui.Controls;
 
 namespace flashcard_mobile.ViewModels
 {
@@ -27,7 +25,7 @@ namespace flashcard_mobile.ViewModels
             _sessionService = App.SessionService;
             LoadDecks();
         }
-
+        public ICommand DeckSelectedCommand { get; }
         public void RefreshData()
         {
             UpdateAccountButtonText();
@@ -51,6 +49,7 @@ namespace flashcard_mobile.ViewModels
         public void UpdateAccountButtonText()
         {
             AccountButtonText = _sessionService.IsLoggedIn ? "My Account" : "Log In";
+            
         }
 
 
@@ -126,10 +125,29 @@ namespace flashcard_mobile.ViewModels
             }
         }
 
+
+
         /* private void OpenDeckDetails(Deck deck)
         {
             // This method should handle opening the DeckDetailsPopup
             ShowDeckDetailsPopup(deck); //(This method should be in HomePage.xaml.cs and should handle the logic to display the popup)
-        } */
+        } 
+
+        public ICommand DeckSelectedCommand { get; }
+
+        private void OnDeckSelected(Deck selectedDeck)
+        {
+            var popup = new CardPopUp(selectedDeck);
+
+            Hey();
+
+            Application.Current.MainPage.ShowPopup(popup);
+        }
+
+        private async void Hey()
+        {
+            await Shell.Current.DisplayAlert("We", "Frack", "ok");
+        }*/
+
     }
-    }
+}

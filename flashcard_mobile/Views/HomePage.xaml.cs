@@ -1,7 +1,6 @@
-using Microsoft.Maui.Controls;
-using flashcard_mobile.ViewModels;
 using CommunityToolkit.Maui.Views;
 using flashcard_mobile.Models;
+using flashcard_mobile.ViewModels;
 
 namespace flashcard_mobile.Views
 {
@@ -15,8 +14,8 @@ namespace flashcard_mobile.Views
         {
             InitializeComponent();
             BindingContext = new HomePageViewModel();
-            _isPopupOpen = false;   
-            
+            _isPopupOpen = false;
+
         }
 
         protected override void OnAppearing()
@@ -26,12 +25,6 @@ namespace flashcard_mobile.Views
             {
                 viewModel.RefreshData();
             }
-        }
-
-        private void ShowEmailPopup(string email)
-        {
-            var emailPopup = new EmailPopup(email);
-            this.ShowPopup(emailPopup);
         }
 
         private async void RedirectLoginOrAccount()
@@ -51,6 +44,25 @@ namespace flashcard_mobile.Views
         {
             RedirectLoginOrAccount();
         }
+
+
+
+
+        private async void OnDeckTapped(object sender, EventArgs e)
+        {
+            var stackLayout = sender as StackLayout;
+            var item = stackLayout.BindingContext as Deck; // Replace with your actual item type
+
+            if (item != null)
+            {
+                var popup = new CardPopUp(item);
+                this.ShowPopup(popup);
+            }
+
+        }
+
+
+
         /*
          * 
         private void ShowAccountPopup()

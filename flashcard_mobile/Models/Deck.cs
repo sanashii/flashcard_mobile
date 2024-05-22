@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-
+﻿
 namespace flashcard_mobile.Models
 {
     public class Deck

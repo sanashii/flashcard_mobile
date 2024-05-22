@@ -1,10 +1,5 @@
-﻿using Android.Webkit;
-using flashcard_mobile.Models;
-using Org.BouncyCastle.Security;
-using System.Collections.Generic;
+﻿using flashcard_mobile.Models;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace flashcard_mobile.Services
 {

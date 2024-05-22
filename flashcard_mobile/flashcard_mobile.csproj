@@ -104,13 +104,13 @@
 	  <MauiXaml Update="Views\AccountPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\CardPopUp.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\DeckDetailsPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\EditAccountPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\EmailPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\HomePage.xaml">
@@ -130,5 +130,7 @@
 	<ItemGroup>
 	  <Folder Include="Views\NewFolder\" />
 	</ItemGroup>
+
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionflashcard_mobileHideInfoBar="True" XamarinHotReloadGenericExceptionInfoBarflashcard_mobileHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>

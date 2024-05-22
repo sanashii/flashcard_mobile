@@ -1,7 +1,5 @@
 using System.ComponentModel;
 using System.Windows.Input;
-using flashcard_mobile.Services;
-using flashcard_mobile.Models;
 
 namespace flashcard_mobile.ViewModels
 {

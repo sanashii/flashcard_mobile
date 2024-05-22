@@ -1,10 +1,5 @@
-﻿using System;
-using System.Windows.Input;
-using Microsoft.Maui.Controls;
-using System.ComponentModel;
+﻿using System.Windows.Input;
 using System.Runtime.CompilerServices;
-using flashcard_mobile.Models;
-using flashcard_mobile.Services;
 
 namespace flashcard_mobile.ViewModels
 {
@@ -80,6 +75,7 @@ namespace flashcard_mobile.ViewModels
             {
                 App.CurrentUserEmail = email;
                 App.SessionService.Login(user);
+
                 await Shell.Current.GoToAsync("//home");
             }
             else if (email == "admin" && password == "admin")

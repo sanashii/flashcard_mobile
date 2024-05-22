@@ -52,79 +52,22 @@ namespace flashcard_mobile.Views
         {
             var stackLayout = sender as StackLayout;
             var item = stackLayout.BindingContext as Deck; // Replace with your actual item type
-
+            /*
             if (item != null)
             {
                 var popup = new CardPopUp(item);
                 this.ShowPopup(popup);
-            }
+            }*/
+
+            await Navigation.PushAsync(new ScanDeck());
 
         }
 
-
-
-        /*
-         * 
-        private void ShowAccountPopup()
+        private async void OnCreateDeckTapped(object sender, EventArgs e)
         {
-            _accountPopup = new AccountPopup(); // Create a new instance of AccountPopup
-            _accountPopup.Closed += (s, e) =>
-            {
-                _isPopupOpen = false;
-                Overlay.IsVisible = false; // Hide overlay when popup is closed
-            };
-
-            this.ShowPopup(_accountPopup);
-            _isPopupOpen = true;
-            Overlay.IsVisible = true; // Show overlay when popup is open
+            await Navigation.PushAsync(new CreateDeckPage());
         }
 
-        private void OnDeckTapped(object sender, EventArgs e)
-        {
-            if (_isPopupOpen)
-            {
-                ClosePopup();
-            }
-            else
-            {
-                var deck = (sender as BindableObject)?.BindingContext as Deck;
-                if (deck != null)
-                {
-                    ShowDeckDetailsPopup(deck);
-                }
-            }
-        }
 
-        private void ShowDeckDetailsPopup(Deck deck)
-        {
-            var popup = new DeckDetailsPopup(deck);
-            popup.Closed += (s, e) =>
-            {
-                _isPopupOpen = false;
-                Overlay.IsVisible = false;
-            };
-
-            this.ShowPopup(popup);
-            _isPopupOpen = true;
-            Overlay.IsVisible = true;
-        }
-
-        private void ClosePopup()
-        {
-            if (_isPopupOpen)
-            {
-                if (_accountPopup != null)
-                {
-                    _accountPopup.Close();
-                }
-                if (_deckDetailsPopup != null)
-                {
-                    _deckDetailsPopup.Close();
-                }
-                Overlay.IsVisible = false;
-                _isPopupOpen = false;
-            }
-        }
-        */
     }
 }

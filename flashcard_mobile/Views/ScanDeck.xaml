@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="flashcard_mobile.Views.ScanDeck"
+             Shell.NavBarIsVisible="False"
+             Title="Scan Deck Flashcards" BackgroundColor="#001233">
+
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <LinearGradientBrush x:Key="BackgroundGradient"
+                             StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#001233" Offset="0.1"/>
+                <GradientStop Color="#2575fc" Offset="1.0"/>
+            </LinearGradientBrush>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#001233" Offset="0.1"/>
+            <GradientStop Color="#2575fc" Offset="1.0"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <ContentPage.Content>
+        <Grid RowSpacing="40" ColumnSpacing="10" Padding="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Deck Title -->
+            <Label Text="Deck Title"
+                   Grid.Row="0"
+                   FontAttributes="Bold"
+                   FontSize="24"
+                   HorizontalOptions="CenterAndExpand"
+                   VerticalOptions="Center" />
+
+            <!-- CarouselView for Questions and Answers -->
+            <CarouselView Grid.Row="1" Grid.Column="1" x:Name="carouselView" WidthRequest="250" HeightRequest="400" ItemsSource="{Binding Flashcards}" PositionChanged="OnCarouselViewPositionChanged">
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid x:Name="CardGrid">
+                            <!-- Front Side -->
+                            <Frame x:Name="FrontCard" HasShadow="True" CornerRadius="10" Padding="10" IsVisible="True">
+                                <Grid>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer CommandParameter="{Binding Source={x:Reference CardGrid}}" Tapped="OnFlipButtonClicked" />
+                                    </Grid.GestureRecognizers>
+                                    <Label Text="{Binding Text}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="CenterAndExpand"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               TextColor="Black"/>
+                                </Grid>
+                            </Frame>
+
+                            <!-- Back Side -->
+                            <Frame x:Name="BackCard" HasShadow="True" CornerRadius="10" Padding="10" IsVisible="False">
+                                <Grid>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer CommandParameter="{Binding Source={x:Reference CardGrid}}" Tapped="OnFlipButtonClicked" />
+                                    </Grid.GestureRecognizers>
+                                    <Label Text="Answer"
+                               HorizontalOptions="Center"
+                               VerticalOptions="CenterAndExpand"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               TextColor="Black"/>
+                                </Grid>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+
+
+
+            <!-- Navigation Buttons -->
+                            
+
+            <Button Grid.Row="1" Grid.Column="0" Text="⟵" TextColor="White" VerticalOptions="Center" HorizontalOptions="Start" Clicked="OnPreviousButtonClicked" BackgroundColor="#FF595A"/>
+            <Button Grid.Row="1" Grid.Column="2" Text="⟶" TextColor="White" VerticalOptions="Center" HorizontalOptions="End" Clicked="OnNextButtonClicked" BackgroundColor="#FF595A"/>
+
+
+            <!-- Category and Description -->
+            <StackLayout Grid.Row="2" Padding="10">
+                <Label Text="Category" FontAttributes="Bold" FontSize="18" />
+                <Label Text="super long description. lorem ipsum something something"
+                       FontSize="14"
+                       TextColor="#666666" />
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

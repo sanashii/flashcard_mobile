@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="flashcard_mobile.Views.CreateDeckPage"
+             xmlns:viewModels="clr-namespace:flashcard_mobile.ViewModels"
+             Shell.NavBarIsVisible="False"
+             Title="Create Deck"
+             BackgroundColor="#001233">
+
+
+    <ContentPage.BindingContext>
+        <viewModels:HomePageViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <LinearGradientBrush x:Key="BackgroundGradient"
+                             StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#001233" Offset="0.1"/>
+                <GradientStop Color="#2575fc" Offset="1.0"/>
+            </LinearGradientBrush>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#001233" Offset="0.1"/>
+            <GradientStop Color="#2575fc" Offset="1.0"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
+    
+    <ContentPage.Content>
+        <Grid Padding="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Top Bar with Create Button -->
+            <Grid Grid.Row="0" Padding="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Create Deck" 
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center"
+                       TextColor="White"/>
+
+                <Button Text="Create"
+                        BackgroundColor="#FF595A"
+                        TextColor="White"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        Clicked="OnCreateButtonClicked"
+                        Padding="10,5"
+                        Margin="0,0,10,0"/>
+            </Grid>
+
+            <!-- Form for Title, Description, and Category -->
+            <StackLayout Grid.Row="1" Spacing="20" VerticalOptions="Start">
+                <Entry Placeholder="Title"
+                       PlaceholderColor="LightGray"
+                       TextColor="White"
+                       BackgroundColor="Transparent"
+                       FontSize="18"
+                       x:Name="TitleEntry"/>
+
+                <Entry Placeholder="description"
+                       PlaceholderColor="LightGray"
+                       TextColor="White"
+                       BackgroundColor="Transparent"
+                       FontSize="18"
+                       x:Name="DescriptionEntry"/>
+
+                <Picker Title="Select Category"
+                        TitleColor="LightGray"
+                        TextColor="White"
+                        BackgroundColor="Transparent"
+                        FontSize="18"
+                        x:Name="CategoryPicker"/>
+
+                <!-- Question and Answer Entry -->
+                <Frame BackgroundColor="#333333" Padding="20" CornerRadius="10">
+                    <StackLayout Spacing="10">
+                        <Label Text="Question 3" 
+                               FontSize="20"
+                               FontAttributes="Bold"
+                               TextColor="White"/>
+
+                        <Entry Placeholder="question"
+                               PlaceholderColor="LightGray"
+                               TextColor="White"
+                               BackgroundColor="Transparent"
+                               FontSize="18"
+                               x:Name="QuestionEntry"/>
+
+                        <Entry Placeholder="answer"
+                               PlaceholderColor="LightGray"
+                               TextColor="White"
+                               BackgroundColor="Transparent"
+                               FontSize="18"
+                               x:Name="AnswerEntry"/>
+
+                        <Button Text="Add"
+                                BackgroundColor="#FF595A"
+                                TextColor="White"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                Clicked="OnAddButtonClicked"
+                                Padding="10,5"/>
+                    </StackLayout>
+                </Frame>
+
+                <!-- List of Added Questions -->
+                <CollectionView x:Name="QuestionsCollectionView" 
+                                ItemsSource="{Binding Questions}"
+                                SelectionMode="None"
+                                Margin="0,10,0,0">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="White" Padding="15" Margin="0,10" CornerRadius="10" HasShadow="True">
+                                <StackLayout Spacing="10">
+                                    <Label Text="{Binding Question}"
+                                           FontSize="16"
+                                           TextColor="Black"/>
+                                    <BoxView HeightRequest="1" BackgroundColor="#CCCCCC"/>
+                                    <Label Text="Answer" 
+                                           FontSize="14"
+                                           FontAttributes="Bold"
+                                           TextColor="#666666"/>
+                                    <Label Text="{Binding Answer}"
+                                           FontSize="16"
+                                           TextColor="Black"/>
+                                </StackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -15,5 +15,10 @@ namespace flashcard_mobile.Views
         {
             Close();
         }
+
+        private void OnScanButtonClicked(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

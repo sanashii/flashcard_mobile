@@ -78,7 +78,9 @@
                         TextColor="White"
                         FontSize="Large"
                         Margin="0,10,0,10"
-                        CornerRadius="10"/>
+                        CornerRadius="10"
+                        Clicked="OnCreateDeckTapped"
+                        />
                 
 
                 <CollectionView ItemsSource="{Binding FilteredDecks}" x:Name="DecksView">

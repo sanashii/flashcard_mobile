@@ -28,4 +28,14 @@ public partial class AccountPage : ContentPage
             await Navigation.PopToRootAsync();
         }
     }
+
+    private async void OnCreateDeckTapped(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new CreateDeckPage());
+    }
+
+    private async void OnDeckTapped(Object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new ScanDeck());
+    }
 }
